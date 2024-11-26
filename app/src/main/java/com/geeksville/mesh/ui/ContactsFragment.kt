@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -24,9 +24,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.geeksville.mesh.android.Logging
 import com.geeksville.mesh.R
+import com.geeksville.mesh.android.Logging
 import com.geeksville.mesh.model.Contact
 import com.geeksville.mesh.model.UIViewModel
 import com.geeksville.mesh.ui.theme.AppTheme
@@ -176,6 +177,7 @@ class ContactsFragment : ScreenFragment("Messages"), Logging {
                         }
                         .show()
                 }
+
                 R.id.selectAllButton -> {
                     // if all selected -> unselect all
                     if (selectedList.size == contacts.size) {
@@ -200,11 +202,21 @@ class ContactsFragment : ScreenFragment("Messages"), Logging {
 }
 
 @Composable
+fun ContactScreen(modifier: Modifier = Modifier, uiViewModel: UIViewModel = hiltViewModel()) {
+    val contacts by uiViewModel.contactList.collectAsStateWithLifecycle()
+    val selectedList = emptyList<String>().toMutableStateList()
+    ContactListView(
+        contacts = contacts,
+        selectedList = selectedList,
+    )
+}
+
+@Composable
 fun ContactListView(
     contacts: List<Contact>,
     selectedList: List<String>,
-    onClick: (Contact) -> Unit,
-    onLongClick: (Contact) -> Unit,
+    onClick: (Contact) -> Unit = {},
+    onLongClick: (Contact) -> Unit = {},
 ) {
     val haptics = LocalHapticFeedback.current
     LazyColumn(
