@@ -18,7 +18,6 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -56,7 +55,6 @@ import com.geeksville.mesh.service.startService
 import com.geeksville.mesh.ui.ChannelFragment
 import com.geeksville.mesh.ui.ContactsFragment
 import com.geeksville.mesh.ui.DebugFragment
-import com.geeksville.mesh.ui.HomeScreen
 import com.geeksville.mesh.ui.QuickChatSettingsFragment
 import com.geeksville.mesh.ui.SettingsFragment
 import com.geeksville.mesh.ui.UsersFragment
@@ -223,13 +221,8 @@ class MainActivity : AppCompatActivity(), Logging {
             (application as GeeksvilleApplication).askToRate(this)
         }
 
-        setContent {
-            AppTheme {
-                HomeScreen()
-            }
-        }
         binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+        setContentView(binding.root)
 
         initToolbar()
 

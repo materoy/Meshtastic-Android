@@ -74,8 +74,8 @@ class UsersFragment : ScreenFragment("Users"), Logging {
 @Suppress("LongMethod")
 fun NodesScreen(
     model: UIViewModel = hiltViewModel(),
-    navigateToMessages: (NodeEntity) -> Unit = {},
-    navigateToNodeDetails: (Int) -> Unit = {},
+    navigateToMessages: (NodeEntity) -> Unit,
+    navigateToNodeDetails: (Int) -> Unit,
 ) {
     val state by model.nodesUiState.collectAsStateWithLifecycle()
 
